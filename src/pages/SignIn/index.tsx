@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable no-unused-expressions */
 import React, { useCallback, useRef } from 'react';
 import {
   Image,
@@ -15,6 +17,8 @@ import * as Yup from 'yup';
 
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
+
+import { useAuth } from '../../hooks/auth';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 import Input from '../../components/Input';
@@ -42,42 +46,48 @@ const SignIn: React.FC = () => {
 
   const navigation = useNavigation();
 
+  const { signIn, user } = useAuth();
+
+  console.log(user);
   // eslint-disable-next-line @typescript-eslint/ban-types
   // const handleSignIn = useCallback((data: object) => {
   //   console.log(data);
   // }, []);
 
-  const handleSignIn = useCallback(async (data: SignInFormData) => {
-    try {
-      formRef.current?.setErrors({});
-      const schema = Yup.object().shape({
-        email: Yup.string()
-          .required('E-mail obrigatório')
-          .email('Digite un email valido'),
-        password: Yup.string().required('Senha obrigatória'),
-      });
+  const handleSignIn = useCallback(
+    async (data: SignInFormData) => {
+      try {
+        formRef.current?.setErrors({});
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('E-mail obrigatório')
+            .email('Digite un email valido'),
+          password: Yup.string().required('Senha obrigatória'),
+        });
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
+        await schema.validate(data, {
+          abortEarly: false,
+        });
 
-      /*         signIn({
+        signIn({
           email: data.email,
           password: data.password,
         });
 
-        history.push('/dashboard'); */
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err);
-        formRef.current?.setErrors(errors);
+        /* history.push('/dashboard'); */
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
+          formRef.current?.setErrors(errors);
+        }
+        Alert.alert(
+          'Error de autenticação.',
+          'Ocorreu un erro ao fazer o login, cheque as credenciais.',
+        );
       }
-      Alert.alert(
-        'Error de autenticação.',
-        'Ocorreu un erro ao fazer o login, cheque as credenciais.',
-      );
-    }
-  }, []);
+    },
+    [signIn],
+  );
 
   return (
     <>
@@ -120,7 +130,11 @@ const SignIn: React.FC = () => {
                 onSubmitEditing={() => formRef.current?.submitForm()}
               />
 
-              <Button onPress={() => formRef.current?.submitForm()}>
+              <Button
+                onPress={() => {
+                  formRef.current?.submitForm();
+                }}
+              >
                 Entrar
               </Button>
             </Form>
