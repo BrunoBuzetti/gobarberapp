@@ -1,5 +1,8 @@
 import styled from 'styled-components/native';
-import { getStatusBarHeight } from 'react-native-iphone-x-helper';
+import {
+  getStatusBarHeight,
+  getBottomSpace,
+} from 'react-native-iphone-x-helper';
 import { FlatList } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { IProvider } from '.';
@@ -92,4 +95,26 @@ export const ProviderMetaText = styled.Text`
   margin-left: 8px;
   color: #999591;
   font-family: 'Roboto-Regular';
+`;
+
+export const BackToSignIn = styled.TouchableOpacity`
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: #312e38;
+  border-top-width: 1px;
+  border-color: #232129;
+  padding: 16px 0 ${16 + getBottomSpace()}px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const BackToSignInText = styled.Text`
+  color: #fff;
+  font-size: 18px;
+  font-family: 'Roboto-Regular';
+  margin-left: 16px;
 `;

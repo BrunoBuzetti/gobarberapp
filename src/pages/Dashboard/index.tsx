@@ -21,6 +21,8 @@ import {
   ProviderName,
   ProviderMeta,
   ProviderMetaText,
+  BackToSignIn,
+  BackToSignInText,
 } from './styles';
 
 export interface IProvider {
@@ -95,6 +97,10 @@ const Dashboard: React.FC = () => {
           </ProviderContainer>
         )}
       />
+      <BackToSignIn onPress={signOut}>
+        <Icon name="log-out" size={20} color="#fff" />
+        <BackToSignInText>Logout</BackToSignInText>
+      </BackToSignIn>
     </Container>
   );
 };

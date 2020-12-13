@@ -16,12 +16,15 @@ export const Title = styled.Text`
 `;
 
 export const BackButton = styled.TouchableOpacity`
-  margin-top: 180px;
+  margin-top: 40px;
 `;
 
-export const UserAvatarButton = styled.TouchableOpacity`
-  margin-top: 32px;
+export const UserAvatarContainer = styled.View`
+  margin-top: 164px;
+  position: relative;
 `;
+
+export const UserAvatarButton = styled.TouchableOpacity``;
 
 export const UserAvatar = styled.Image`
   width: 186px;
